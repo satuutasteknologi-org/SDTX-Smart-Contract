@@ -2,7 +2,7 @@ import { ethers } from "ethers";
 import fs from "fs";
 
 // Membaca file hasil kompilasi Smart Contract
-const contractJson = JSON.parse(fs.readFileSync("./artifacts/contracts/NadiToken.sol/Nadi.json", "utf8"));
+const contractJson = JSON.parse(fs.readFileSync("./artifacts/contracts/SDTXToken.sol/SDTX.json", "utf8"));
 
 async function main() {
   // Ini adalah Private Key bawaan Hardhat (Akun 0) yang otomatis berisi 10.000 ETH Palsu lokal
@@ -16,7 +16,7 @@ async function main() {
   const deployer = new ethers.Wallet(privateKey, provider);
 
   console.log("==========================================");
-  console.log("Memulai Peluncuran LOKAL/INTERNAL $NADI Token...");
+  console.log("Memulai Peluncuran LOKAL/INTERNAL $SDTX Token...");
   console.log("Alamat Wallet Simulasi:", deployer.address);
 
   // Cek Saldo ETH (Pasti 10.000 ETH)
@@ -24,18 +24,18 @@ async function main() {
   console.log("Saldo ETH Simulasi Saat Ini:", ethers.formatEther(balance), "ETH");
 
   // Menyiapkan peluncuran kontrak
-  const NadiTokenFactory = new ethers.ContractFactory(contractJson.abi, contractJson.bytecode, deployer);
+  const SDTXTokenFactory = new ethers.ContractFactory(contractJson.abi, contractJson.bytecode, deployer);
   
   console.log("Mengeksekusi transaksi ke Blockchain Internal...");
   // Meluncurkan kontrak dan mengirimkan address wallet sebagai parameter initialOwner
-  const nadi = await NadiTokenFactory.deploy(deployer.address);
+  const sdtx = await SDTXTokenFactory.deploy(deployer.address);
 
   console.log("Menunggu konfirmasi blok lokal...");
-  await nadi.waitForDeployment();
-  const contractAddress = await nadi.getAddress();
+  await sdtx.waitForDeployment();
+  const contractAddress = await sdtx.getAddress();
 
   console.log("==========================================");
-  console.log("🚀 $NADI Token BERHASIL DILUNCURKAN SECARA LOKAL!");
+  console.log("🚀 $SDTX Token BERHASIL DILUNCURKAN SECARA LOKAL!");
   console.log("📡 Jaringan: Hardhat Internal (127.0.0.1)");
   console.log("📄 Contract Address:", contractAddress);
   console.log("==========================================");
